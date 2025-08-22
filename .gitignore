@@ -9,19 +9,32 @@
 
 # Build results
 [Dd]ebug/
-[Dd]ebugPublic/
 [Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+.vs
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+.builds
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
 
 # .NET Core
 project.lock.json
@@ -37,9 +50,17 @@ ScaffoldingReadMe.txt
 *.snupkg
 
 # Others
+[Bb]in
+[Oo]bj
+sql
+TestResults
+[Tt]est[Rr]esult*
+*.Cache
+ClientBin
+[Ss]tyle[Cc]op.*
 ~$*
-*~
-CodeCoverage/
+*.dbmdl
+Generated_Code #added for RIA/Silverlight projects
 
 # MSBuild Binary and Structured Log
 *.binlog
