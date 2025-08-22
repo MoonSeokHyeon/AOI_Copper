@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="MVision.UI.InteractivityViews.View.ModelManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVision.UI.InteractivityViews.View"
+             mc:Ignorable="d" 
+                          xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="800" Height="500"
+             >
+
+    <wpf:DialogHost Identifier="ModelManagerDialog">
+        <Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Model Data" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="0" >
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="CameraIris" Height="32" Width="32" VerticalAlignment="Center" />
+                                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignSubtitle1TextBlock}" Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+
+                    <Grid>
+                        <ScrollViewer Grid.Row="0">
+                            <DataGrid x:Name="dgMain" Height="auto" Margin="0 8 0 0" ItemsSource="{Binding DataList}" SelectedItem="{Binding SelectedModel, Mode=TwoWay}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                                <DataGrid.Columns>
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Id}" Header="ModelID" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                                    <materialDesign:DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="Name" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                                    <materialDesign:DataGridTextColumn Binding="{Binding CreateTime}" IsReadOnly="True" Header="CreateTime" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </Grid>
+
+                </GroupBox>
+
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0,40,0,0">
+                    <Button Content="Create Model" Command="{Binding CreateModelCommand}" Height="50" Margin="5"/>
+                    <!--<Button Content="Edit Model" Command="{Binding EditModelCommand}" Height="50" Margin="5"/>-->
+                    <Button Content="Delete Model" Command="{Binding DeleteModelCommand}" Height="50" Margin="5"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0 16 0 0" Grid.ColumnSpan="2">
+                    <Button IsDefault="True"
+                    Command="{Binding SaveCommand}" Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSaving}" Value="true">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        ACCEPT
+                    </Button>
+
+                    <ProgressBar Value="0" IsIndeterminate="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ProgressBar.Style>
+                            <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSaving}" Value="false">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ProgressBar.Style>
+                    </ProgressBar>
+
+                    <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding CloseCommand}">
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                        CANCEL
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </wpf:DialogHost>
+</UserControl>

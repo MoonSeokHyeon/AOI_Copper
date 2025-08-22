@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="MVision.UI.InteractivityViews.View.ComfirmationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVision.UI.InteractivityViews.View"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="450" Height="200">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="1.5*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}">Question</TextBlock>
+
+        <TextBlock Grid.Row="2" Text="{Binding Message}" wpf:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignBody1TextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 6 0 0" FontSize="18" />
+
+        <Grid Grid.Row="1">
+            <Separator Background="{DynamicResource PrimaryHueMidBrush}"/>
+        </Grid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            Margin="0 16 0 0" Cursor="">
+            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+            Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+                ACCEPT
+            </Button>
+            <Button IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
+            Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+                CANCEL
+            </Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

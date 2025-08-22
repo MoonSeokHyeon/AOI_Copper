@@ -1,0 +1,373 @@
+﻿<UserControl x:Class="MVision.UI.CogToolEditViews.View.LineFindEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVision.UI.CogToolEditViews.View"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:DOTNETWPF="clr-namespace:DOTNET.WPF.Behavior;assembly=DOTNET"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="1960" Height="1100" >
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="listBoxTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Name"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Normal"/>
+                <TextBox Grid.Column="1" Text="{Binding Value, StringFormat={}{0:0.###}, Mode=TwoWay}" VerticalAlignment="Center" Margin="20 0 0 0">
+                    <i:Interaction.Behaviors>
+                        <DOTNETWPF:TextBoxEnterKeyUpdateBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ItemlistTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Name"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Normal"/>
+                <TextBlock Grid.Column="1" Text="{Binding Data, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Normal" Margin="20 0 0 0"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Border BorderThickness="3" BorderBrush="{DynamicResource PrimaryHueMidBrush}">
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="gridHeader" Cursor="Hand" Height="50"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="CameraIris" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,0" Height="30" Width="30"/>
+                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Text="{Binding Title, FallbackValue=CamId}" VerticalAlignment="Center"/>
+                <TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Margin="10 0 0 0" Text=" Model Line Editor" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Rectangle Fill="#FFBABABA" Height="2" VerticalAlignment="Bottom" Margin="20,0"/>
+
+            <StackPanel Margin="480,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ComboBox ItemsSource="{Binding FindLineToolList}" SelectedItem="{Binding SelectedTool}" Width="250" Height="auto" FontSize="16" FontWeight="Bold" Foreground="Black" BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}"/>
+            </StackPanel>
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                    <Button Width="120" Content="Grab" Margin="0,0,15,0" Height="30" BorderThickness="0" Command="{Binding GrabImageCommand}" Cursor="Hand"/>
+                    <Button Width="120" Content="Run" Margin="0,0,15,0" Height="30" BorderThickness="0" Command="{Binding RunLineFindToolCommand}" Cursor="Hand"/>
+                    <Button Width="120" Content="Load Image" Margin="0,0,15,0" Height="30" BorderThickness="0" Command="{Binding LoadImageCommand}" Cursor="Hand"/>
+                    <Button Width="120" Content="Save Image" Height="30" BorderThickness="0" Command="{Binding SaveImageCommand}" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="15*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel VerticalAlignment="Center" Grid.Column="0">
+                            <ComboBox Margin="10,0,0,0" ItemsSource="{Binding ImageSourceList}" SelectedItem="{Binding ImageSourceSelectedItem}" FontSize="20" FontWeight="Bold" Foreground="Black" BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}"/>
+                        </StackPanel>
+                        
+                        <StackPanel VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center">
+                            <Button  Content="Set" Margin="10" Height="30" BorderThickness="0" Command="{Binding GraphicsSetCommand}" Cursor="Hand"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <ContentControl Grid.Row="1" Content="{Binding CogDisplay}" Margin="5"/>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="14*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <TabControl Grid.Row="0" Style="{StaticResource MaterialDesignNavigatilRailTabControl}" TabStripPlacement="Right" materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+                        <TabItem Width="auto">
+                            <TabItem.Header>
+                                <StackPanel Height="auto" Width="auto">
+                                    <TextBlock Text="Settings" Margin="20" HorizontalAlignment="Center" FontSize="15" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid>
+                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="3*"/>
+                                            <RowDefinition Height="3*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0" Grid.Column="0">
+                                            <GroupBox Header="Caliper" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10" Background="Gainsboro">
+                                                    <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="5*"/>
+                                                                <RowDefinition Height="1*"/>
+                                                            </Grid.RowDefinitions>
+
+                                                            <Grid Grid.Row="0">
+                                                                <ListBox ItemsSource="{Binding CaliperParams}" ItemTemplate="{StaticResource listBoxTemplate}" Grid.Column="1" Margin="5" Grid.IsSharedSizeScope="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                                                            </Grid>
+
+                                                            <Grid Grid.Row="1">
+                                                                <Button Margin="10" Content="Swap Search Direction" Height="Auto" BorderThickness="0" Command="{Binding SwapSearchDirectionCommand}"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </materialDesign:Card>
+                                                </Border>
+                                            </GroupBox>
+                                        </Grid>
+
+                                        <Grid Grid.Row="0" Grid.Column="1">
+                                            <GroupBox Header="Expected Line Segment" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10" Background="Gainsboro">
+                                                    <Grid>
+                                                        <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                                                            <Grid>
+                                                                <ListBox ItemsSource="{Binding LineSegmentParams}" ItemTemplate="{StaticResource listBoxTemplate}" Grid.Column="1" Margin="5" Grid.IsSharedSizeScope="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                                                            </Grid>
+                                                        </materialDesign:Card>
+                                                    </Grid>
+                                                </Border>
+                                            </GroupBox>
+                                        </Grid>
+
+                                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                                            <GroupBox Header="Fitter" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10" Background="Gainsboro">
+                                                    <Grid>
+                                                        <ListBox ItemsSource="{Binding FitterParams}" ItemTemplate="{StaticResource listBoxTemplate}" Grid.Column="1" Margin="5" Grid.IsSharedSizeScope="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                                                    </Grid>
+                                                </Border>
+                                            </GroupBox>
+                                        </Grid>
+
+                                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                            <GroupBox Margin="5" Header="Caliper Setting" Style="{DynamicResource MaterialDesignCardGroupBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10" Background="Gainsboro">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="1*"/>
+                                                            <RowDefinition Height="3*"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0">
+                                                            <StackPanel Orientation="Vertical" Margin="10 5 5 5" VerticalAlignment="Center">
+                                                                <Label Content="Edge Polarity" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"/>
+                                                                <ComboBox ItemsSource="{Binding EdgePolarityParams}" SelectedItem="{Binding EdgePolaritySelectedItem}" HorizontalAlignment="Left" FontSize="12" VerticalAlignment="Center"  Width="300" Height="30"/>
+                                                            </StackPanel>
+                                                        </Grid>
+
+                                                        <Grid Grid.Row="2">
+                                                            <ListBox ItemsSource="{Binding EdgeParams}" ItemTemplate="{StaticResource listBoxTemplate}" Grid.Column="1" Margin="5" Grid.IsSharedSizeScope="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </Border>
+                                            </GroupBox>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Width="auto">
+                            <TabItem.Header>
+                                <StackPanel Height="auto" Width="auto">
+                                    <TextBlock Text="Light" Margin="20" HorizontalAlignment="Center" FontSize="15" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid>
+                                <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10">
+                                    <Grid>
+                                        <GroupBox Margin="5" Header="Light Control" Style="{DynamicResource MaterialDesignCardGroupBox}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                            <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10"  Background="#FFF0F0F0">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid Grid.Row="0">
+                                                        <ContentControl Content="{Binding SettingLigthView_1}" Margin="1"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="1">
+                                                        <ContentControl Content="{Binding SettingLigthView_2}" Margin="1"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="2">
+                                                        <ContentControl Content="{Binding SettingLigthView_3}" Margin="1"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="3">
+                                                        <ContentControl Content="{Binding SettingLigthView_4}" Margin="1"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+                                        </GroupBox>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </TabItem>
+                        <!--<TabItem Width="auto">
+                     <TabItem.Header>
+                         <StackPanel Height="auto" Width="auto">
+                             <TextBlock Text="Graphics" Margin="20" HorizontalAlignment="Center" FontSize="15" />
+                         </StackPanel>
+                     </TabItem.Header>
+                     <Grid>
+                         <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10">
+                             <Grid>
+                                 <Grid.ColumnDefinitions>
+                                     <ColumnDefinition Width="2*"/>
+                                     <ColumnDefinition Width="1*"/>
+                                 </Grid.ColumnDefinitions>
+                                 <Grid.RowDefinitions>
+                                     <RowDefinition Height="4*"/>
+                                     <RowDefinition Height="5*"/>
+                                 </Grid.RowDefinitions>
+
+                                 <Grid Grid.Row="0" Grid.Column="0">
+                                     <Border BorderBrush="#FF323232" Grid.Row="0" CornerRadius="5" BorderThickness="2" Margin="2" Background="#FFF0F0F0">
+                                         <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                                             <Grid>
+                                                 <Grid.RowDefinitions>
+                                                     <RowDefinition Height="2*"/>
+                                                     <RowDefinition Height="5*"/>
+                                                 </Grid.RowDefinitions>
+
+                                                 <Grid Grid.Row="0">
+                                                     <StackPanel Orientation="Vertical" Margin="10 5 5 5" VerticalAlignment="Center">
+                                                         <ComboBox SelectedItem="{Binding FindTypeSelectedItem}" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Center"  Width="300" Height="30">
+                                                             <ComboBoxItem Tag="CogCircle">CogCircle</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogEllipse">CogEllipse</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogPolygon">CogPolygon</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogRectangle">CogRectangle</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogRectangleAffine" IsSelected="True">CogRectangleAffine</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogCircularAnnulusSection">CogCircularAnnulusSection</ComboBoxItem>
+                                                             <ComboBoxItem Tag="CogEllipticalAnnulusSection">CogEllipticalAnnulusSection</ComboBoxItem>
+                                                             <ComboBoxItem Tag="NONE-Use Entire Image">NONE-Use Entire Image</ComboBoxItem>
+                                                         </ComboBox>
+                                                     </StackPanel>
+                                                 </Grid>
+
+                                                 <Grid Grid.Row="1">
+                                                     <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                                                         <Grid>
+                                                             <ListBox ItemsSource="{Binding SearchRegionParam}" Grid.Column="1" ItemTemplate="{StaticResource listBoxTemplate}" Margin="5" Grid.IsSharedSizeScope="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                                                         </Grid>
+                                                     </materialDesign:Card>
+                                                 </Grid>
+                                             </Grid>
+                                         </materialDesign:Card>
+                                     </Border>
+                                 </Grid>
+
+                             </Grid>
+                         </Border>
+                     </Grid>
+                 </TabItem>-->
+
+                        <!--<TabItem Width="auto">
+                     <TabItem.Header>
+                         <StackPanel Height="auto" Width="auto">
+                             <TextBlock Text="Point Results" Margin="20" HorizontalAlignment="Center" FontSize="15" />
+                         </StackPanel>
+                     </TabItem.Header>
+                     <Grid>
+                         <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10">
+                             <Grid>
+                                 <Grid.RowDefinitions>
+                                     <RowDefinition Height="1*"/>
+                                     <RowDefinition Height="15*"/>
+                                 </Grid.RowDefinitions>
+
+                                 <Grid Grid.Row="0" Margin="0 5 0 0">
+                                     <Grid.ColumnDefinitions>
+                                         <ColumnDefinition Width="2*"/>
+                                         <ColumnDefinition Width="1*"/>
+                                     </Grid.ColumnDefinitions>
+                                     <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                         <TextBlock Margin="10 0 0 0" Text="Number Of Results" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                         <TextBlock Margin="20 0 0 0" FontSize="18" Text="{Binding CurrentModelName, FallbackValue=DefualtModel}" Style="{DynamicResource MaterialDesignBody2TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                     </StackPanel>
+                                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                         <Button Margin="10" Style="{StaticResource MaterialDesignRaisedButton}" Height="Auto" BorderThickness="0" Command="{Binding RunLineFindToolCommand}" Cursor="Hand">
+                                             <StackPanel Orientation="Horizontal">
+                                                 <materialDesign:PackIcon Kind="Play" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
+                                             </StackPanel>
+                                         </Button>
+                                         <Button Margin="10" Style="{StaticResource MaterialDesignRaisedButton}" Height="Auto" BorderThickness="0" Command="{Binding ElectricModeCommand}">
+                                             <StackPanel Orientation="Horizontal">
+                                                 <materialDesign:PackIcon Kind="LightningBoltOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
+                                             </StackPanel>
+                                         </Button>
+                                     </StackPanel>
+                                 </Grid>
+
+                                 <Grid Grid.Row="1" Margin="5 0 5 5">
+                                     <Border BorderBrush="#FF323232" Grid.Row="0" CornerRadius="5" BorderThickness="2" Margin="2">
+                                         <materialDesign:Card Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                                             <Grid>
+                                                 <DataGrid Margin="5,0,0,0" ItemsSource="{Binding FindResultList}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8 10 90 10" IsReadOnly="True">
+                                                     <DataGrid.Columns>
+                                                         <DataGridTextColumn Binding="{Binding ID}" Header="ID" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                                         <DataGridTextColumn Binding="{Binding XY}" Header="XY" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                                     </DataGrid.Columns>
+                                                 </DataGrid>
+                                             </Grid>
+                                         </materialDesign:Card>
+                                     </Border>
+                                 </Grid>
+                             </Grid>
+                         </Border>
+                     </Grid>
+                 </TabItem>-->
+                    </TabControl>
+                    <Grid  Grid.Row="1">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="180" Height="40" Margin="10,0,0,0" Content="Ref Pos Save" Command="{Binding ResfPosSaveCommand}" FontSize="16" Cursor="Hand"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5">
+                            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin="10,0,0,0" Content="Save" Command="{Binding SaveDialogCommand}" FontSize="20"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+
+
+</UserControl>

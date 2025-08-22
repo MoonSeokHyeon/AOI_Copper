@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="MVision.UI.CogDisplayViews.View.SingleCamView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVision.UI.CogDisplayViews.View"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="Transparent"
+             d:DesignHeight="450" d:DesignWidth="750">
+
+    <Border BorderThickness="2" BorderBrush="{DynamicResource PrimaryHueMidBrush}" CornerRadius="10" Background="Gainsboro">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.13*"/>
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Margin="5" Grid.Column="0" Content="{Binding CamViewHost}" />
+
+            <TextBlock Text="{Binding CamName, FallbackValue=Cam1}" Margin="5" Foreground="Black"/>
+            <Grid Grid.Column="1" Margin="5" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button Command="{Binding GrabCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Cam Grab" Grid.Row="0" Height="auto" Margin="5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="CameraPlusOutline" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding FindCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Find" Grid.Row="1" Height="auto" Margin="5" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="FindReplace" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding LiveCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Live" Grid.Row="2" Height="auto" Margin="5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="Play" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SaveImageCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Image Save" Grid.Row="3" Height="auto" Margin="5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding CusorCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Pointer" Grid.Row="4" Height="auto" Margin="5" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="CursorDefault" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding PanCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Pan" Grid.Row="5" Height="auto" Margin="5" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="Hand" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding ZoomInCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Zoom In" Grid.Row="6" Height="auto" Margin="5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="SearchAddOutline" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding ZoomOutCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Zoom Out" Grid.Row="7" Height="auto" Margin="5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="ZoomOut" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding FitCommand}" IsEnabled="{Binding IsCanOperation}" ToolTip="Image Fit" Grid.Row="8" Height="auto" Margin="5" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <StackPanel Height="auto" Width="auto" Margin="1">
+                        <materialDesign:PackIcon Kind="ArrowExpandAll" HorizontalAlignment="Center" Width="25" Height="auto" Foreground="{DynamicResource PrimaryHueDarkBrush}"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+
+</UserControl>

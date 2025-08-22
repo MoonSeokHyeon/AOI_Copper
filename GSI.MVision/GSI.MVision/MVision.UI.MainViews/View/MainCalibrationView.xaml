@@ -1,0 +1,232 @@
+﻿<UserControl x:Class="MVision.UI.MainViews.View.MainCalibrationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVision.UI.MainViews.View"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+             d:DesignHeight="1000" d:DesignWidth="1900">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="5" CornerRadius="5" Margin="2" Background="{DynamicResource MaterialDesignDarkSeparatorBackground}">
+                <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="Current Position" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Separator />
+                        </Grid>
+
+                        <TreeView Grid.Row="2" HorizontalContentAlignment="Center" ItemsSource="{Binding CalibrationList}" SelectedItemChanged="PositionSelectedChanged"/>
+
+                    </Grid>
+                </materialDesign:Card>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="5" CornerRadius="5" Margin="2" Background="{DynamicResource MaterialDesignDarkSeparatorBackground}">
+                <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="PLC Interface" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Separator />
+                        </Grid>
+
+                        <ContentControl Grid.Row="2" Content="{Binding CalibrationBitControl}"/>
+                    </Grid>
+                </materialDesign:Card>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="5" CornerRadius="5" Margin="2" Background="{DynamicResource MaterialDesignDarkSeparatorBackground}">
+                <materialDesign:Card Background="#FFF0F0F0" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Padding="8" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="Calibration Data" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Separator />
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="Moving X Pitch" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1" Grid.Column="0">
+                                    <TextBlock Text="Moving Y Pitch" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Text="Moving T Pitch" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="{Binding MovingXPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1" Grid.Column="1">
+                                    <TextBlock Text="{Binding MovingYPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="2" Grid.Column="1">
+                                    <TextBlock Text="{Binding MovingTPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="0" Grid.Column="2">
+                                    <TextBlock Text="{Binding MovingXPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1" Grid.Column="2">
+                                    <TextBlock Text="{Binding MovingYPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="2" Grid.Column="2">
+                                    <TextBlock Text="{Binding MovingTPitch, FallbackValue=0}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+
+                                <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+                                    <Button FontSize="16" Command="{Binding ChangePitchCommand}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Set Pitch" Cursor="Hand"/>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+
+                    </Grid>
+                </materialDesign:Card>
+            </Border>
+        </Grid>
+
+        <Grid Grid.RowSpan="3" Grid.Column="1">
+            <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="5" CornerRadius="5" Margin="2" Background="{DynamicResource MaterialDesignDarkSeparatorBackground}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="{DynamicResource PrimaryHueMidBrush}" Margin="-1"  CornerRadius="5">
+                            <TextBlock FontFamily="Consolas" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LeftDisplayHeader, FallbackValue=Robot Left}" Grid.Row="1" Foreground="White"/>
+                        </Border>
+                        <ContentControl Grid.Row="1" Content="{Binding LeftDisplay}" Margin="0 3 0 0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Border Margin="3" BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="3" CornerRadius="5" Background="#FFF0F0F0" Grid.Row="0">
+                            <DataGrid Margin="2" ItemsSource="{Binding CalibrationDataList}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False" materialDesign:DataGridAssist.CellPadding="8" materialDesign:DataGridAssist.ColumnHeaderPadding="10" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding FixPosXY.X}" Header="FixPos_X[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    <DataGridTextColumn Binding="{Binding FixPosXY.Y}" Header="FixPos_Y[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding ResolutionXY.X}" Header="Resolution_X[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding ResolutionXY.Y}" Header="Resolution_Y[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding refPosXY.X}" Header="refPos_X" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding refPosXY.Y}" Header="refPos_Y" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid Grid.RowSpan="3" Grid.Column="2">
+            <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="5" CornerRadius="5" Margin="2" Background="{DynamicResource MaterialDesignDarkSeparatorBackground}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="{DynamicResource PrimaryHueMidBrush}" Margin="-1"  CornerRadius="5">
+                            <TextBlock FontFamily="Consolas" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RightDisplayHeader, FallbackValue=Robot Right}" Grid.Row="1" Foreground="White"/>
+                        </Border>
+                        <ContentControl Grid.Row="1" Content="{Binding RightDisplay}" Margin="0 3 0 0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Border Margin="3" BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="3" CornerRadius="5" Background="#FFF0F0F0" Grid.Row="0">
+                            <DataGrid Margin="2" ItemsSource="{Binding CalibrationDataList}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False" materialDesign:DataGridAssist.CellPadding="8" materialDesign:DataGridAssist.ColumnHeaderPadding="10" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding FixPosXY.X}" Header="FixPos_X[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    <DataGridTextColumn Binding="{Binding FixPosXY.Y}" Header="FixPos_Y[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding ResolutionXY.X}" Header="Resolution_X[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding ResolutionXY.Y}" Header="Resolution_Y[mm]" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding refPosXY.X}" Header="refPos_X" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding refPosXY.Y}" Header="refPos_Y" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+    
+</UserControl>
